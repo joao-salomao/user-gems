@@ -19,8 +19,8 @@ Route::get('/', function () {
 
 
 Route::get('email', function () {
-    $user = App\Models\User::first();
-    $event = $user->events;
+    $person = App\Models\Person::first();
+    $events = $person->events;
 
-    return new App\Mail\DailyMeetingsMail($user, $event);
+    return new App\Mail\DailyMeetingsMail($person, $events);
 });

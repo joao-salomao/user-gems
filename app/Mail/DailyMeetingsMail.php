@@ -2,8 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\Event;
-use App\Models\User;
+use App\Models\Person;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -18,7 +17,7 @@ class DailyMeetingsMail extends Mailable
 
 
     public function __construct(
-        private User $user,
+        private Person $user,
         private Collection $events
     ) {
     }
@@ -46,7 +45,7 @@ class DailyMeetingsMail extends Mailable
         return new Content(
             view: 'email.daily_meetings',
             with: [
-                'user' => $this->user,
+                'person' => $this->person,
                 'events' => $this->events,
             ],
         );

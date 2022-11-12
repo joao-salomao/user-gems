@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('role')->nullable();
             $table->string('avatar')->nullable();
+            $table->boolean('is_internal')->default(false);
             $table->string('linkedin_url')->nullable()->unique();
             $table->string('calendar_api_token')->nullable();
             $table->timestamp('last_updated')->nullable();

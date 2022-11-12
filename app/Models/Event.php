@@ -30,4 +30,18 @@ class Event extends Model
     {
         return $this->hasMany(EventParticipant::class);
     }
+
+    public function internalParticipants()
+    {
+        return $this->participants()
+            ->join('people', 'people.id', '=', 'event_participants.person_id')
+            ->where('people.is_internal', true);
+    }
+
+    public function externalParticipants()
+    {
+        return $this->participants()
+            ->join('people', 'people.id', '=', 'event_participants.person_id')
+            ->where('people.is_internal', true);
+    }
 }

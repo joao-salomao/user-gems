@@ -17,16 +17,33 @@ class Person extends Model
         'avatar',
         'linkedin_url',
         'last_updated',
+        'calendar_api_token',
+        'is_internal'
     ];
 
 
     protected $casts = [
         'last_updated' => 'datetime',
+        'is_internal' => 'boolean'
     ];
 
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function events()
+    {
+        return $this->hasManyThrough(Event::class, EventParticipant::class, 'person_id', 'id', 'id', 'event_id');
+    }
+
+    public function getIsInternalAttribute()
+    {
+        if ($this->company_id) {
+            return true;
+        }
+
+        return explode('@', $this->email)[1] == 'usergems.com';
     }
 
     public function hasInfos(): bool

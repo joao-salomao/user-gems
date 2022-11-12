@@ -20,8 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
-        'calendar_api_token',
+        'password'
     ];
 
     /**

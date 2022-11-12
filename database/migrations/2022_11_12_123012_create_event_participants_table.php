@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('status', ['accepted', 'rejected']);
             $table->timestamps();
 
+            $table->unique(['event_id', 'person_id']);
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->foreign('person_id')->references('id')->on('people');
         });

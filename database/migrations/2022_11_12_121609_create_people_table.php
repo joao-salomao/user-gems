@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('role')->nullable();
             $table->string('avatar')->nullable();
             $table->string('linkedin_url')->nullable()->unique();
+            $table->string('calendar_api_token')->nullable();
+            $table->boolean('is_internal')->default(false);
             $table->timestamp('last_updated')->nullable();
             $table->timestamps();
 

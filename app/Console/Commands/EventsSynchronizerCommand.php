@@ -4,7 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use App\Services\EventsSynchronizerService;
+use App\Models\Person;
+use App\Jobs\PersonEventsSynchronizerJob;
 
 class EventsSynchronizerCommand extends Command
 {
@@ -31,7 +32,13 @@ class EventsSynchronizerCommand extends Command
     {
         $this->info('Synchronizing events...');
 
-        (new EventsSynchronizerService)->synchronize();
+
+        $people = Person::withCalendarApiToken()->get();
+
+        $people->each(function ($person) {
+            $this->info('Synchronizing events for ' . $person->name);
+            dispatch(new PersonEventsSynchronizerJob($person->id));
+        });
 
         $this->info('Events synchronized!');
 

@@ -30,10 +30,16 @@ class EventsSynchronizerCommand extends Command
      */
     public function handle()
     {
-        $this->info('Synchronizing events...');
-
+        $this->info('Starting events Synchronizer...');
 
         $people = Person::withCalendarApiToken()->get();
+
+        if ($people->isEmpty()) {
+            $this->info('No people found with calendar api token');
+            return Command::SUCCESS;
+        }
+
+        $this->info('Synchronizing events for ' . $people->count() . ' people');
 
         $people->each(function ($person) {
             $this->info('Synchronizing events for ' . $person->name);

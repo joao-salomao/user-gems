@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('calendar_api_id')->unsigned();
             $table->string('title');
             $table->dateTime('start_at');

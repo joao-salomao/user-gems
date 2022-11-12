@@ -37,13 +37,14 @@ class Person extends Model
         return $this->hasManyThrough(Event::class, EventParticipant::class, 'person_id', 'id', 'id', 'event_id');
     }
 
+    public function scopeWithCalendarApiToken($query)
+    {
+        return $query->whereNotNull('calendar_api_token');
+    }
+
     public function getIsInternalAttribute()
     {
-        if ($this->company_id) {
-            return true;
-        }
-
-        return explode('@', $this->email)[1] == 'usergems.com';
+        return $this->calendar_api_token !== null;
     }
 
     public function hasInfos(): bool

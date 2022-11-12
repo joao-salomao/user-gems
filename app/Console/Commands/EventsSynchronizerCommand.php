@@ -29,7 +29,12 @@ class EventsSynchronizerCommand extends Command
      */
     public function handle()
     {
+        $this->info('Synchronizing events...');
+
         (new EventsSynchronizerService)->synchronize();
+
+        $this->info('Events synchronized!');
+
         return Command::SUCCESS;
     }
 }

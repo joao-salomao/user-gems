@@ -15,29 +15,31 @@ class EventsSynchronizerService
 {
     public function synchronize()
     {
-        $users = User::all();
+        $people = Person::withCalendarApiToken()->get();
 
-        $users->each(function ($user) {
-            $this->synchronizeEventsForUser($user);
+        $people->each(function ($person) {
+            $this->synchronizeEventsForPerson($person);
         });
     }
 
-    private function synchronizeEventsForUser(User $user)
+    private function synchronizeEventsForPerson(Person $person)
     {
-        DB::transaction(function () use ($user) {
-            $calendarApi = new CalendarApi($user->calendar_api_token);
+        DB::transaction(function () use ($person) {
+            $calendarApi = new CalendarApi($person->calendar_api_token);
             $events = $calendarApi->getEvents();
 
-            $user->events()->delete();
-
             foreach ($events as $eventData) {
-                $event = $user->events()->create([
-                    'calendar_api_id' => $eventData['id'],
-                    'title' => $eventData['title'],
-                    'start_at' => $eventData['start'],
-                    'end_at' => $eventData['end'],
-                    'last_updated' => $eventData['changed'],
-                ]);
+                $event = $person->events()->updateOrCreate(
+                    ['calendar_api_id' => $eventData['id']],
+                    [
+                        'title' => $eventData['title'],
+                        'start_at' => $eventData['start'],
+                        'end_at' => $eventData['end'],
+                        'last_updated' => $eventData['changed']
+                    ]
+                );
+
+                $event->participants()->delete();
 
                 $acceptedParticipantEmails = $eventData['accepted'];
                 foreach ($acceptedParticipantEmails as $participantEmail) {
@@ -71,16 +73,14 @@ class EventsSynchronizerService
 
     private function updatePersonInfo(Person $person)
     {
-        if ($person->last_updated?->greaterThan(now()->subMonth())) {
-            return;
-        }
+        if ($person->is_internal) return;
+
+        if ($person->last_updated?->greaterThan(now()->subMonth())) return;
 
         $personApi = new PersonApi;
         $personInfo = $personApi->getPersonInfo($person->email);
 
-        if (empty($personInfo)) {
-            return;
-        }
+        if (empty($personInfo)) return;
 
         $company = Company::firstOrCreate($personInfo['company']);
 

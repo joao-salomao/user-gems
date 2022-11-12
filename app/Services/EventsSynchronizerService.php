@@ -71,8 +71,6 @@ class EventsSynchronizerService
 
     private function updatePersonInfo(Person $person)
     {
-        print("Updating person info for $person->email. Last update $person->last_updated \n");
-
         if ($person->last_updated?->greaterThan(now()->subMonth())) {
             return;
         }

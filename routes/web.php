@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('email', function () {
+    $user = App\Models\User::first();
+    $event = $user->events;
+
+    return new App\Mail\DailyMeetingsMail($user, $event);
+});

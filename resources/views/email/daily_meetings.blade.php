@@ -26,15 +26,27 @@
     .text-bold {
       font-weight: bold;
     }
+
+    .text-primary {
+      color: rgb(42, 201, 188) !important;
+    }
+
+    .text-icon {
+      font-size: 14px;
+    }
+
+    .text-underscore {
+      text-decoration: underline;
+    }
   </style>
 </head>
 
-<body class="p-3">
-  <h1 class="text-center">Your Morning Update</h1>
+<body class="text-muted p-3">
+  <h1 class="text-center text-primary">Your Morning Update</h1>
   @foreach ($events as $event)
   <div class="card card-body shadow-sm mb-3">
     <div class="mb-2">
-      <span class="text-bold">{{ $event->start_at->format('h:m A') }}</span>
+      <span class="text-bold text-primary">{{ $event->start_at->format('h:m A') }}</span>
       <span class="text-bold"> - {{ $event->end_at->format('h:m A') }}</span>
       <span class="text-bold">| {{$event->title }}</span>
       <span>| ({{ $event->start_at->diffInMinutes($event->end_at) }} min)</span>
@@ -42,10 +54,21 @@
     <div class="mb-2">
       <span>Joining from UserGems:</span>
       @foreach ($event->participants as $participant)
-      <span class="font-weight-bold">
-        {{ $participant->person->name }} {{ $participant->has_accepted ? '✅' : '❌' }} |
+      <span class="text-bold">
+        {{ $participant->person->name }} <span class="text-icon">{{ $participant->has_accepted ? '✅' : '❌' }}</span>
+        {{ $loop->last ? '' : '|' }}
       </span>
       @endforeach
+    </div>
+    <div>
+      <span class="text-bold text-underscore">{{ $event->company->name }}</span>
+      <a href="{{ $event->company->linkedin_url }}">
+        <img height="16px" src="{{ asset('icons/linkedin.png') }}" />
+      </a>
+      <span class="ms-1">
+        {{ $event->company->employees }}
+        <img height="22px" src="{{ asset('icons/group.svg') }}" />
+      </span>
     </div>
     <div>
       @foreach ($event->externalParticipants as $participant)
@@ -53,13 +76,13 @@
         <img class="me-2" height="50" width="50" src="{{ $participant->person->avatar }}">
         <div>
           <div>
-            <span>{{ $participant->person->name }}</span>
+            <span class="text-bold text-primary">{{ $participant->person->name }}</span>
             <a href="{{ $participant->person->linkedin_url }}">
-              <img height="24px" width="24px" src="https://img.icons8.com/color/48/000000/linkedin.png" />
+              <img height="16px" src="{{ asset('icons/linkedin.png') }}" />
             </a>
-            <span>{{ $participant->has_accepted ? '✅' : '❌' }}</span>
+            <span class="text-icon">{{ $participant->has_accepted ? '✅' : '❌' }}</span>
           </div>
-          <p>{{ $participant->person->role }}</p>
+          <span class="text-bold">{{ $participant->person->role }}</span>
         </div>
       </div>
       @endforeach

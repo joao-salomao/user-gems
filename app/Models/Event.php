@@ -50,4 +50,10 @@ class Event extends Model
         return $query->where('start_at', '>=', $date->startOfDay()->toDateTimeString())
             ->where('start_at', '<=', $date->endOfDay()->toDateTimeString());
     }
+
+    public function getCompanyAttribute(): Company
+    {
+        $eventParticipant = $this->externalParticipants()->where('company_id', '!=', null)->first();
+        return Company::find($eventParticipant->company_id);
+    }
 }

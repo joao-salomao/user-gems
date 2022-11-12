@@ -104,8 +104,6 @@ class PersonEventsSynchronizerJob implements ShouldQueue
         $personApi = new PersonApi;
         $personInfo = $personApi->getPersonInfo($person->email);
 
-        if (empty($personInfo)) return;
-
         $company = Company::firstOrCreate($personInfo['company']);
 
         $person->update([

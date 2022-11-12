@@ -16,6 +16,12 @@ class Person extends Model
         'role',
         'avatar',
         'linkedin_url',
+        'last_updated',
+    ];
+
+
+    protected $casts = [
+        'last_updated' => 'datetime',
     ];
 
     public function company()

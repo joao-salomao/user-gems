@@ -20,6 +20,13 @@ class Event extends Model
         'last_updated'
     ];
 
+    protected $casts = [
+        'start_at' => 'datetime',
+        'end_at' => 'datetime',
+        'sent_at' => 'datetime',
+        'last_updated' => 'datetime',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

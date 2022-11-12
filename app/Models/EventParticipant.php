@@ -24,4 +24,9 @@ class EventParticipant extends Model
     {
         return $this->belongsTo(Person::class);
     }
+
+    public function getHasAcceptedAttribute()
+    {
+        return $this->status === 'accepted';
+    }
 }

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('role')->nullable();
             $table->string('avatar')->nullable();
             $table->string('linkedin_url')->nullable()->unique();
+            $table->timestamp('last_updated')->nullable();
             $table->timestamps();
 
             $table->foreign('company_id')->references('id')->on('companies');

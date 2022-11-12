@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 use App\Models\Person;
 use App\Jobs\SendPersonDailyMeetingsEmailJob;
 
-class DailyEmailSenderCommand extends Command
+class SendDailyMeetingsEmailCommand extends Command
 {
     /**
      * The name and signature of the console command.

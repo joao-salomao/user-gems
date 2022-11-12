@@ -17,8 +17,11 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('event_id')->unsigned();
             $table->bigInteger('person_id')->unsigned();
-            $table->enum('status', ['accepted', 'declined']);
+            $table->enum('status', ['accepted', 'rejected']);
             $table->timestamps();
+
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+            $table->foreign('person_id')->references('id')->on('people');
         });
     }
 

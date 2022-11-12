@@ -49,7 +49,7 @@ class EventsSynchronizerService
 
                 $rejectedParticipantEmails = $eventData['rejected'];
                 foreach ($rejectedParticipantEmails as $participantEmail) {
-                    $person = $this->addPersonToEvent($event, $participantEmail, 'accepted');
+                    $person = $this->addPersonToEvent($event, $participantEmail, 'rejected');
                     $this->updatePersonInfo($person);
                 }
             };

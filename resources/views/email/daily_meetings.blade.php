@@ -11,6 +11,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
   <style>
+    a {
+      text-decoration: none;
+    }
+
     .participant-card {
       display: flex;
       padding: 10px;
@@ -31,21 +35,29 @@
       <span>| {{$event->title }}</span>
       <span>| {{ $event->start_at->diffInMinutes($event->end_at) }} min</span>
     </div>
-    <div>
+    <div class="mb-2">
+      <span>Joining from UserGems:</span>
       @foreach ($event->participants as $participant)
-      @if ($participant->person->hasInfos())
+      <span class="font-weight-bold">
+        {{ $participant->person->name }} {{ $participant->has_accepted ? '✅' : '❌' }}
+      </span>
+      @endforeach
+    </div>
+    <div>
+      @foreach ($event->externalParticipants as $participant)
       <div class="d-flex mb-2">
         <img class="me-2" height="50" width="50" src="{{ $participant->person->avatar }}">
         <div>
-          <div class="">
+          <div>
             <span>{{ $participant->person->name }}</span>
-            <a href="{{ $participant->person->linkedin_url }}" target="_blank">LinkedIn</a>
-            <span>{{ $participant->has_accepted ? 'accepted': 'rejected' }}</span>
+            <a href="{{ $participant->person->linkedin_url }}">
+              <img height="24px" width="24px" src="https://img.icons8.com/color/48/000000/linkedin.png" />
+            </a>
+            <span>{{ $participant->has_accepted ? '✅' : '❌' }}</span>
           </div>
           <p>{{ $participant->person->role }}</p>
         </div>
       </div>
-      @endif
       @endforeach
     </div>
   </div>

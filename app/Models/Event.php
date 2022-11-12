@@ -42,6 +42,6 @@ class Event extends Model
     {
         return $this->participants()
             ->join('people', 'people.id', '=', 'event_participants.person_id')
-            ->where('people.is_internal', true);
+            ->where('people.is_internal', false);
     }
 }

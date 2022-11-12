@@ -17,7 +17,7 @@ class DailyMeetingsMail extends Mailable
 
 
     public function __construct(
-        private Person $user,
+        private Person $person,
         private Collection $events
     ) {
     }

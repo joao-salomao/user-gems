@@ -41,9 +41,4 @@ class Person extends Model
     {
         return $query->whereNotNull('calendar_api_token');
     }
-
-    public function hasInfos(): bool
-    {
-        return !empty($this->name) && !empty($this->role) && !empty($this->avatar) && !empty($this->linkedin_url);
-    }
 }

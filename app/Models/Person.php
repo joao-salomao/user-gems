@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Person extends Model
 {
@@ -40,5 +41,18 @@ class Person extends Model
     public function scopeWithCalendarApiToken($query)
     {
         return $query->whereNotNull('calendar_api_token');
+    }
+
+    public function scopeInternal($query)
+    {
+        return $query->where('is_internal', true);
+    }
+
+    public function scopeWithEventsAtDate($query, Carbon $date)
+    {
+        return $query->whereHas('events', function ($query) use ($date) {
+            $query->where('events.start_at', '>=', $date->startOfDay()->toDateTimeString())
+                ->where('events.start_at', '<=', $date->endOfDay()->toDateTimeString());
+        });
     }
 }

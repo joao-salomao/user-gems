@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Carbon;
 
 class Event extends Model
 {
@@ -43,5 +43,11 @@ class Event extends Model
         return $this->participants()
             ->join('people', 'people.id', '=', 'event_participants.person_id')
             ->where('people.is_internal', false);
+    }
+
+    public function scopeAtDate($query, Carbon $date)
+    {
+        return $query->where('start_at', '>=', $date->startOfDay()->toDateTimeString())
+            ->where('start_at', '<=', $date->endOfDay()->toDateTimeString());
     }
 }

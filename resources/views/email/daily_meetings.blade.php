@@ -22,6 +22,10 @@
       border-radius: 5px;
       margin-bottom: 10px;
     }
+
+    .text-bold {
+      font-weight: bold;
+    }
   </style>
 </head>
 
@@ -30,16 +34,16 @@
   @foreach ($events as $event)
   <div class="card card-body shadow-sm mb-3">
     <div class="mb-2">
-      <span class="font-weight-bold">{{ $event->start_at->format('h:m A') }}</span>
-      <span> - {{ $event->end_at->format('h:m A') }}</span>
-      <span>| {{$event->title }}</span>
-      <span>| {{ $event->start_at->diffInMinutes($event->end_at) }} min</span>
+      <span class="text-bold">{{ $event->start_at->format('h:m A') }}</span>
+      <span class="text-bold"> - {{ $event->end_at->format('h:m A') }}</span>
+      <span class="text-bold">| {{$event->title }}</span>
+      <span>| ({{ $event->start_at->diffInMinutes($event->end_at) }} min)</span>
     </div>
     <div class="mb-2">
       <span>Joining from UserGems:</span>
       @foreach ($event->participants as $participant)
       <span class="font-weight-bold">
-        {{ $participant->person->name }} {{ $participant->has_accepted ? '✅' : '❌' }}
+        {{ $participant->person->name }} {{ $participant->has_accepted ? '✅' : '❌' }} |
       </span>
       @endforeach
     </div>

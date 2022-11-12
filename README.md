@@ -19,7 +19,7 @@ TIP: If you are using Linux, take a look at the [asdf project](https://asdf-vm.c
 
 The application behavior and details can be seen in the [Telescope dashboard](http://localhost/telescope) and the emails sent can be seen in the [Mailhog dashboard](http://localhost:8025).
 
-There are implemented, for the sake of simplicity, the following features:
+### Features
 
 #### Sync people events from the Calendar API:
 

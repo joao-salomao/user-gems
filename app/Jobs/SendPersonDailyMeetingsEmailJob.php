@@ -52,7 +52,7 @@ class SendPersonDailyMeetingsEmailJob implements ShouldQueue
     {
         return $this->person->events()
             ->atDate($this->date)
-            ->with('participants.person')
+            ->with('internalParticipants.person', 'externalParticipants.person')
             ->get();
     }
 

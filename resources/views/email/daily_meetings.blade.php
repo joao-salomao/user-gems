@@ -60,7 +60,7 @@
       </span>
       @endforeach
     </div>
-    <div>
+    <div class="mb-2">
       <span class="text-bold text-underscore">{{ $event->company->name }}</span>
       <a href="{{ $event->company->linkedin_url }}">
         <img height="16px" src="{{ asset('icons/linkedin.png') }}" />
@@ -73,7 +73,7 @@
     <div>
       @foreach ($event->externalParticipants as $participant)
       <div class="d-flex mb-2">
-        <img class="me-2" height="50" width="50" src="{{ $participant->person->avatar }}">
+        <img class="me-2 my-auto" height="50" width="50" src="{{ $participant->person->avatar }}">
         <div>
           <div>
             <span class="text-bold text-primary">{{ $participant->person->name }}</span>
@@ -83,6 +83,19 @@
             <span class="text-icon">{{ $participant->has_accepted ? '✅' : '❌' }}</span>
           </div>
           <span class="text-bold">{{ $participant->person->role }}</span>
+          <div>
+            <span class="text-bold">{{ ordinal_number($participant->person->getMeetingsCountByInternalPeople(onlyPersonId: $person->id)->first()->meetings_count) }}</span>
+            <span>Meeting</span>
+            @if(count($participant->person->getMeetingsCountByInternalPeople(personIdToExclude: $person->id)) > 0)
+            | Met with
+            @endif
+            @foreach ($participant->person->getMeetingsCountByInternalPeople(personIdToExclude: $person->id) as $personMeetingsCount)
+            <span>
+              {{ $personMeetingsCount->name }} ({{ $personMeetingsCount->meetings_count }}x)
+              {{ $loop->last ? '' : ' & ' }}
+            </span>
+            @endforeach
+          </div>
         </div>
       </div>
       @endforeach

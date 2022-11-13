@@ -53,7 +53,7 @@ class Event extends Model
 
     public function getCompanyAttribute(): Company
     {
-        $eventParticipant = $this->externalParticipants()->where('company_id', '!=', null)->first();
-        return Company::find($eventParticipant->company_id);
+        $eventParticipant = $this->externalParticipants()->whereNotNull('people.company_id')->first();
+        return Company::find($eventParticipant->person->company_id);
     }
 }
